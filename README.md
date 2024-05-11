@@ -9,7 +9,7 @@ https://github.com/mikeTwoTimes/snake/assets/135299307/410af842-81c6-40a7-968e-f
 - C++ 17
 - Ncurses library
 - Terminal color
-- Minumum terminal dimensions of 68x35
+- Minimum terminal dimensions of 68x35
 
 ## Contributing
 You can fork and do whatever you would like to this repo, however, I will not be 
