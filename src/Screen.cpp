@@ -15,24 +15,26 @@ Point Screen::start_ncurses() const {
 }
 
 void Screen::start_paint() const {
-  const RGB background = {0, 150, 250};
-  const RGB snake = {0, 500, 0};
-  const RGB apple = {500, 0, 0};
-  const RGB congrats = {700, 700, 0};
-  const RGB highlight = {500, 500, 500};
+  const RGB board = {0, 0, 0};
+  const RGB apple = {918, 200, 137};
+  const RGB congrats = {1000, 1000, 329};
+  const RGB snake = {435, 859, 255};
+  const RGB edge = {114, 192, 290};
+  const RGB text = {1000, 1000, 1000};
   
   start_color();
+  init_color(Paint::black, board.r, board.g, board.b);
   init_color(Paint::red, apple.r, apple.g, apple.b);
-  init_color(Paint::green, snake.r, snake.g, snake.b);
-  init_color(Paint::blue, background.r, background.g, background.b);
   init_color(Paint::yellow, congrats.r, congrats.g, congrats.b);
-  init_color(Paint::gray, highlight.r, highlight.g, highlight.b);
+  init_color(Paint::green, snake.r, snake.g, snake.b);
+  init_color(Paint::blue, edge.r, edge.g, edge.b);
+  init_color(Paint::white, text.r, text.g, text.b);
+  init_pair(Paint::black, Paint::white, Paint::black);
   init_pair(Paint::red, Paint::red, Paint::red);
+  init_pair(Paint::yellow, Paint::yellow, Paint::black);
   init_pair(Paint::green, Paint::green, Paint::green);
-  init_pair(Paint::blue, COLOR_WHITE, Paint::blue);
-  init_pair(Paint::black, COLOR_WHITE, COLOR_BLACK);
-  init_pair(Paint::yellow, Paint::yellow, COLOR_BLACK);
-  init_pair(Paint::gray, Paint::gray, Paint::gray);
+  init_pair(Paint::blue, Paint::white, Paint::blue);
+  init_pair(Paint::white, Paint::white, Paint::white);
 }
 
 void Screen::print_score_tags() const {
@@ -75,7 +77,7 @@ uint8_t Screen::game_rows() const {
 
 void Screen::start(const Point head, const Point apple) {
   wattron(this->m_game_screen, COLOR_PAIR(Paint::green));
-  mvwprintw(this->m_game_screen, head.second, head.first, "[]");
+  mvwprintw(this->m_game_screen, head.second, head.first, "  ");
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
   this->print_apple(apple);
 }
@@ -87,7 +89,7 @@ void Screen::refresh_snake(const Point head, const Point new_tail,
   }
 
   wattron(this->m_game_screen, COLOR_PAIR(Paint::green));
-  mvwprintw(this->m_game_screen, head.second, head.first, "[]");
+  mvwprintw(this->m_game_screen, head.second, head.first, "  ");
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
   wrefresh(this->m_game_screen);
   napms(this->m_print_tick);
@@ -95,7 +97,7 @@ void Screen::refresh_snake(const Point head, const Point new_tail,
 
 void Screen::print_apple(const Point apple) {
   wattron(this->m_game_screen, COLOR_PAIR(Paint::red));
-  mvwprintw(this->m_game_screen, apple.second, apple.first, "()");
+  mvwprintw(this->m_game_screen, apple.second, apple.first, "  ");
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::red));
   wrefresh(this->m_game_screen);
 }
@@ -105,7 +107,7 @@ void Screen::restore(const std::list<Point>& body, const Point apple) {
   wattron(this->m_game_screen, COLOR_PAIR(Paint::green));
 
   for (const Point& pos : body) {
-    mvwprintw(this->m_game_screen, pos.second, pos.first, "[]");
+    mvwprintw(this->m_game_screen, pos.second, pos.first, "  ");
   }
 
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
@@ -179,9 +181,9 @@ void Screen::log_high_score(const uint16_t length) {
 void Screen::highlight_head(const Point head) {
   if (head.first < this->m_game_cols && head.first >= 0 &&
       head.second < this->m_game_rows && head.second >= 0) {
-    wattron(this->m_game_screen, COLOR_PAIR(Paint::gray));
-    mvwprintw(this->m_game_screen, head.second, head.first, "[]");
-    wattroff(this->m_game_screen, COLOR_PAIR(Paint::gray));
+    wattron(this->m_game_screen, COLOR_PAIR(Paint::white));
+    mvwprintw(this->m_game_screen, head.second, head.first, "  ");
+    wattroff(this->m_game_screen, COLOR_PAIR(Paint::white));
     wrefresh(this->m_game_screen);
     return;
   }
@@ -189,9 +191,9 @@ void Screen::highlight_head(const Point head) {
   const Point edge(head.first + this->m_game_start.first,
 		   head.second + this->m_game_start.second);
 
-  attron(COLOR_PAIR(Paint::gray));
-  mvprintw(edge.second, edge.first, "[]");
-  attroff(COLOR_PAIR(Paint::gray));
+  attron(COLOR_PAIR(Paint::white));
+  mvprintw(edge.second, edge.first, "  ");
+  attroff(COLOR_PAIR(Paint::white));
   refresh();
 }
 

@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -Werror -Wextra -std=c++17
+CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -O3 -march=native
 SRC = src
 TARGET = play
 

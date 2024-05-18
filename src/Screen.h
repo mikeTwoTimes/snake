@@ -10,7 +10,7 @@ struct RGB {
 };
 
 enum Paint : uint8_t {
-  red = 11, green, blue, black, yellow, gray
+  black = 9, red, yellow, green, blue, white
 };
 
 class Screen {
