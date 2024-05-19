@@ -25,7 +25,7 @@ public:
   void log_game_over(const uint16_t score);
   void log_high_score(const uint16_t score);
   void highlight_head(const Point head);
-  void clean();
+  void reset(const uint16_t high);
   ~Screen();
 
   static Screen& get();

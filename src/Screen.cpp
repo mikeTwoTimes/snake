@@ -111,7 +111,6 @@ void Screen::restore(const std::list<Point>& body, const Point apple) {
   }
 
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
-  wrefresh(this->m_game_screen);
   this->print_apple(apple);
 }
 
@@ -197,22 +196,12 @@ void Screen::highlight_head(const Point head) {
   refresh();
 }
 
-void Screen::clean() {
-  const uint8_t row = this->m_game_rows + this->m_game_start.second + 1;
-  const uint8_t col = this->m_game_cols + this->m_game_start.first - 3;
-  std::string best(3, ' ');
-  uint32_t temp = 0;
-
-  for (std::size_t i = 0; i < best.size(); i++) {
-    temp = mvinch(row, col + i);
-    best[i] = temp;
-  }
-
+void Screen::reset(const uint16_t high) {
   wclear(this->m_game_screen);
   clear();
   this->print_score_tags();
   this->print_length(1);
-  this->print_best(std::stoi(best));
+  this->print_best(high);
 }
 
 void Screen::print_length(const uint16_t length) const {

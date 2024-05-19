@@ -13,6 +13,11 @@ void Snake::fill_points() {
 }
 
 void Snake::spawn_apple() {
+  if (this->m_open.empty()) {
+    this->m_apple = Point(-1, -1);
+    return;
+  }
+  
   const uint16_t idx = Random::get().Int(0, this->m_open.size() - 1);
   std::set<Point>::const_iterator it(this->m_open.begin());
 
@@ -36,7 +41,8 @@ void Snake::slither(const Point diff) {
   this->m_body.push_front(next);
   this->m_body.pop_back();
 
-  if (!this->m_open.count(next)) {
+  if ((next == tail && tail == this->m_body.back()) ||
+      (!this->m_open.count(next) && next != tail)) {
     this->m_on_self = true;
   }
 
