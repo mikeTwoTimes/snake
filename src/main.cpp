@@ -133,7 +133,8 @@ uint16_t play(Screen& display, const uint8_t turns) {
       display.print_length(snake.body().size());
     }
 
-    display.refresh_snake(snake.body().front(), snake.body().back(), tail);
+    display.refresh_snake(snake.body().front(), snake.body().back(), tail,
+			  snake.apple());
     key = read_key(snake, key);
   } while (snake.alive());
 

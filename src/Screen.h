@@ -17,7 +17,7 @@ class Screen {
 public:
   void start(const Point head, const Point apple);
   void refresh_snake(const Point head, const Point new_tail,
-		     const Point old_tail);
+		     const Point old_tail, const Point apple);
   void print_apple(const Point apple);
   void restore(const std::list<Point>& body, const Point apple);
   void log_start();

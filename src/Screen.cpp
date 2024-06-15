@@ -83,8 +83,8 @@ void Screen::start(const Point head, const Point apple) {
 }
 
 void Screen::refresh_snake(const Point head, const Point new_tail,
-			   const Point old_tail) {
-  if (old_tail != new_tail) {
+			   const Point old_tail, const Point apple) {
+  if (old_tail != new_tail && old_tail != apple) {
     mvwprintw(this->m_game_screen, old_tail.second, old_tail.first, "  ");
   }
 
