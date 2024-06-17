@@ -2,8 +2,9 @@
 A Snake clone built in C++ using the ncurses library!
 
 
-https://github.com/mikeTwoTimes/snake/assets/135299307/410af842-81c6-40a7-968e-f80f5d6143e8
+![vid](https://github.com/mikeTwoTimes/snake/assets/135299307/261e69ee-34a0-426f-ae0d-500152e9cccd)
 
+Note: The above gif has been sped up for frame rate purposes, that is not the actual speed of the snake.
 
 ## Dependencies
 - C++ 17
