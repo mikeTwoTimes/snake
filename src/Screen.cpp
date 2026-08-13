@@ -1,4 +1,4 @@
-#include <snake/screen.h>
+#include <snake/screen.hpp>
 
 Screen Screen::s_instance;
 

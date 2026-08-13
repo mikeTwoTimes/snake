@@ -10,19 +10,19 @@ $(TARGET): build build/point.o build/screen.o build/snake.o build/utility.o buil
 build:
 	mkdir -p build
 
-build/point.o: $(INCLUDE)/point.h src/point.cpp
+build/point.o: $(INCLUDE)/point.hpp src/point.cpp
 	g++ -Iinclude $(CXXFLAGS) -c src/point.cpp -o build/point.o
 
-build/screen.o: $(INCLUDE)/point.h $(INCLUDE)/screen.h src/point.cpp src/screen.cpp
+build/screen.o: $(INCLUDE)/point.hpp $(INCLUDE)/screen.hpp src/point.cpp src/screen.cpp
 	g++ -Iinclude $(CXXFLAGS) -c src/screen.cpp -o build/screen.o
 
-build/snake.o: $(INCLUDE)/point.h $(INCLUDE)/snake.h src/point.cpp src/snake.cpp
+build/snake.o: $(INCLUDE)/point.hpp $(INCLUDE)/snake.hpp src/point.cpp src/snake.cpp
 	g++ -Iinclude $(CXXFLAGS) -c src/snake.cpp -o build/snake.o
 
-build/utility.o: $(INCLUDE)/utility.h $(INCLUDE)/screen.h $(INCLUDE)/snake.h src/utility.cpp src/screen.cpp src/snake.cpp
+build/utility.o: $(INCLUDE)/utility.hpp $(INCLUDE)/screen.hpp $(INCLUDE)/snake.hpp src/utility.cpp src/screen.cpp src/snake.cpp
 	g++ -Iinclude $(CXXFLAGS) -c src/utility.cpp -o build/utility.o
 
-build/main.o: $(INCLUDE)/utility.h src/utility.cpp app/main.cpp
+build/main.o: $(INCLUDE)/utility.hpp src/utility.cpp app/main.cpp
 	g++ -Iinclude $(CXXFLAGS) -c app/main.cpp -o build/main.o
 
 clean:

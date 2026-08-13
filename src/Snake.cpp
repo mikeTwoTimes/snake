@@ -1,4 +1,4 @@
-#include <snake/snake.h>
+#include <snake/snake.hpp>
 
 const uint8_t Snake::s_grow_amount = 4;
 

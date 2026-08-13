@@ -3,7 +3,7 @@
 #include <cstring>
 #include <list>
 #include <ncurses.h>
-#include <snake/point.h>
+#include <snake/point.hpp>
 #include <string>
 
 struct RGB {

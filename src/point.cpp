@@ -1,4 +1,4 @@
-#include <snake/point.h>
+#include <snake/point.hpp>
 
 Point::Point(const int8_t x, const int8_t y) : x(x), y(y) {}
 

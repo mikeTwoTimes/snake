@@ -2,8 +2,8 @@
 
 #include <cctype>
 #include <map>
-#include <snake/screen.h>
-#include <snake/snake.h>
+#include <snake/screen.hpp>
+#include <snake/snake.hpp>
 
 uint16_t read_key(const Snake &snake, const uint16_t prev);
 bool play_again();

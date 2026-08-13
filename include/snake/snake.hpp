@@ -3,7 +3,7 @@
 #include <list>
 #include <random>
 #include <set>
-#include <snake/point.h>
+#include <snake/point.hpp>
 #include <utility>
 
 class Snake {

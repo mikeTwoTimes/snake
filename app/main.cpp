@@ -1,4 +1,4 @@
-#include <snake/utility.h>
+#include <snake/utility.hpp>
 
 int main() {
   uint16_t score = 0, high = 1;

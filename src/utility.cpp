@@ -1,4 +1,4 @@
-#include <snake/utility.h>
+#include <snake/utility.hpp>
 
 const std::map<uint16_t, Point> directions = {{KEY_UP, Point(0, -1)},
                                               {KEY_DOWN, Point(0, 1)},
