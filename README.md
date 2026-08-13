@@ -13,7 +13,7 @@ A Snake clone built in C++ using the ncurses library!
 ## Building & Playing
 ```
 make
-build/play
+build/main
 ```
 
 ## Contributing
