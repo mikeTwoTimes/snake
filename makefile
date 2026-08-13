@@ -1,28 +1,29 @@
-CXX = g++
 CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -O3 -march=native
-SRC = src
-TARGET = play
+INCLUDE = include/snake
+TARGET = build/main
 
 all: $(TARGET)
-	rm -f *.o
 
-$(TARGET): main.o Screen.o Random.o Snake.o File_Util.o
-	$(CXX) $(CXXFLAGS) -lncurses -o $(TARGET) main.o Screen.o Random.o Snake.o File_Util.o
+$(TARGET): build build/point.o build/screen.o build/snake.o build/utility.o build/main.o
+	g++ $(CXXFLAGS) -lncurses -o $(TARGET) build/point.o build/screen.o build/snake.o build/utility.o build/main.o
 
-main.o: $(SRC)/main.cpp $(SRC)/Screen.h
-	$(CXX) $(CXXFLAGS) -c $(SRC)/main.cpp
+build:
+	mkdir -p build
 
-Screen.o: $(SRC)/Screen.cpp $(SRC)/Screen.h
-	$(CXX) $(CXXFLAGS) -c $(SRC)/Screen.cpp
+build/point.o: $(INCLUDE)/point.h src/point.cpp
+	g++ -Iinclude $(CXXFLAGS) -c src/point.cpp -o build/point.o
 
-Snake.o: $(SRC)/Snake.cpp $(SRC)/Snake.h
-	$(CXX) $(CXXFLAGS) -c $(SRC)/Snake.cpp
+build/screen.o: $(INCLUDE)/point.h $(INCLUDE)/screen.h src/point.cpp src/screen.cpp
+	g++ -Iinclude $(CXXFLAGS) -c src/screen.cpp -o build/screen.o
 
-Random.o: $(SRC)/Random.cpp $(SRC)/Random.h
-	$(CXX) $(CXXFLAGS) -c $(SRC)/Random.cpp
+build/snake.o: $(INCLUDE)/point.h $(INCLUDE)/snake.h src/point.cpp src/snake.cpp
+	g++ -Iinclude $(CXXFLAGS) -c src/snake.cpp -o build/snake.o
 
-File_Util.o: $(SRC)/File_Util.cpp $(SRC)/File_Util.h
-	$(CXX) $(CXXFLAGS) -c $(SRC)/File_Util.cpp
+build/utility.o: $(INCLUDE)/utility.h $(INCLUDE)/screen.h $(INCLUDE)/snake.h src/utility.cpp src/screen.cpp src/snake.cpp
+	g++ -Iinclude $(CXXFLAGS) -c src/utility.cpp -o build/utility.o
+
+build/main.o: $(INCLUDE)/utility.h src/utility.cpp app/main.cpp
+	g++ -Iinclude $(CXXFLAGS) -c app/main.cpp -o build/main.o
 
 clean:
-	rm -f $(TARGET)
+	rm -rf build

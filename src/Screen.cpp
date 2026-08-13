@@ -1,4 +1,4 @@
-#include "Screen.h"
+#include <snake/screen.h>
 
 Screen Screen::s_instance;
 
@@ -11,7 +11,7 @@ Point Screen::start_ncurses() const {
   timeout(1);
 
   return Point((COLS / 2) - (this->m_game_cols / 2),
-	       (LINES / 2) - ((this->m_game_rows + 2) / 2));
+               (LINES / 2) - (this->m_game_rows + 2) / 2);
 }
 
 void Screen::start_paint() const {
@@ -21,7 +21,7 @@ void Screen::start_paint() const {
   const RGB snake = {435, 859, 255};
   const RGB edge = {114, 192, 290};
   const RGB text = {1000, 1000, 1000};
-  
+
   start_color();
   init_color(Paint::black, board.r, board.g, board.b);
   init_color(Paint::red, apple.r, apple.g, apple.b);
@@ -38,18 +38,18 @@ void Screen::start_paint() const {
 }
 
 void Screen::print_score_tags() const {
-  const uint8_t row = this->m_game_rows + this->m_game_start.second + 1;
-  const uint8_t best_col = this->m_game_cols + this->m_game_start.first - 9;
+  const uint8_t row = this->m_game_rows + this->m_game_start.y + 1;
+  const uint8_t best_col = this->m_game_cols + this->m_game_start.x - 9;
 
-  mvprintw(row, this->m_game_start.first, "Length: ");
+  mvprintw(row, this->m_game_start.x, "Length: ");
   mvprintw(row, best_col, "Best: ");
 }
 
 Screen::Screen()
-  : m_game_cols(64), m_game_rows(31), m_print_tick(80),
-    m_game_start(start_ncurses()), m_game_screen(newwin(m_game_rows, m_game_cols,
-							m_game_start.second,
-							m_game_start.first)) {
+    : m_game_cols(64), m_game_rows(31), m_print_tick(80),
+      m_game_start(start_ncurses()),
+      m_game_screen(
+          newwin(m_game_rows, m_game_cols, m_game_start.y, m_game_start.x)) {
   this->start_paint();
   bkgd(COLOR_PAIR(Paint::blue));
   this->print_score_tags();
@@ -63,33 +63,27 @@ Screen::~Screen() {
   endwin();
 }
 
-Screen& Screen::get() {
-  return s_instance;
-}
+Screen &Screen::get() { return s_instance; }
 
-uint8_t Screen::game_cols() const {
-  return this->m_game_cols;
-}
+uint8_t Screen::game_cols() const { return this->m_game_cols; }
 
-uint8_t Screen::game_rows() const {
-  return this->m_game_rows;
-}
+uint8_t Screen::game_rows() const { return this->m_game_rows; }
 
 void Screen::start(const Point head, const Point apple) {
   wattron(this->m_game_screen, COLOR_PAIR(Paint::green));
-  mvwprintw(this->m_game_screen, head.second, head.first, "  ");
+  mvwprintw(this->m_game_screen, head.y, head.x, "  ");
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
   this->print_apple(apple);
 }
 
 void Screen::refresh_snake(const Point head, const Point new_tail,
-			   const Point old_tail, const Point apple) {
+                           const Point old_tail, const Point apple) {
   if (old_tail != new_tail && old_tail != apple) {
-    mvwprintw(this->m_game_screen, old_tail.second, old_tail.first, "  ");
+    mvwprintw(this->m_game_screen, old_tail.y, old_tail.x, "  ");
   }
 
   wattron(this->m_game_screen, COLOR_PAIR(Paint::green));
-  mvwprintw(this->m_game_screen, head.second, head.first, "  ");
+  mvwprintw(this->m_game_screen, head.y, head.x, "  ");
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
   wrefresh(this->m_game_screen);
   napms(this->m_print_tick);
@@ -97,17 +91,17 @@ void Screen::refresh_snake(const Point head, const Point new_tail,
 
 void Screen::print_apple(const Point apple) {
   wattron(this->m_game_screen, COLOR_PAIR(Paint::red));
-  mvwprintw(this->m_game_screen, apple.second, apple.first, "  ");
+  mvwprintw(this->m_game_screen, apple.y, apple.x, "  ");
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::red));
   wrefresh(this->m_game_screen);
 }
 
-void Screen::restore(const std::list<Point>& body, const Point apple) {
+void Screen::restore(const std::list<Point> &body, const Point apple) {
   wclear(this->m_game_screen);
   wattron(this->m_game_screen, COLOR_PAIR(Paint::green));
 
-  for (const Point& pos : body) {
-    mvwprintw(this->m_game_screen, pos.second, pos.first, "  ");
+  for (const Point &pos : body) {
+    mvwprintw(this->m_game_screen, pos.y, pos.x, "  ");
   }
 
   wattroff(this->m_game_screen, COLOR_PAIR(Paint::green));
@@ -125,9 +119,9 @@ void Screen::create_logger() {
   }
 }
 
-void Screen::print_middle(const uint8_t y, const char* str) {
+void Screen::print_middle(const uint8_t y, const char *str) {
   const uint8_t x = ((this->m_game_cols / 2) + 1) - (strlen(str) / 2);
-  
+
   mvwprintw(this->m_game_screen, y, x, str);
 }
 
@@ -178,20 +172,20 @@ void Screen::log_high_score(const uint16_t length) {
 }
 
 void Screen::highlight_head(const Point head) {
-  if (head.first < this->m_game_cols && head.first >= 0 &&
-      head.second < this->m_game_rows && head.second >= 0) {
+  if (head.x < this->m_game_cols && head.x >= 0 && head.y < this->m_game_rows &&
+      head.y >= 0) {
     wattron(this->m_game_screen, COLOR_PAIR(Paint::white));
-    mvwprintw(this->m_game_screen, head.second, head.first, "  ");
+    mvwprintw(this->m_game_screen, head.y, head.x, "  ");
     wattroff(this->m_game_screen, COLOR_PAIR(Paint::white));
     wrefresh(this->m_game_screen);
     return;
   }
 
-  const Point edge(head.first + this->m_game_start.first,
-		   head.second + this->m_game_start.second);
+  const Point edge(head.x + this->m_game_start.x,
+                   head.y + this->m_game_start.y);
 
   attron(COLOR_PAIR(Paint::white));
-  mvprintw(edge.second, edge.first, "  ");
+  mvprintw(edge.y, edge.x, "  ");
   attroff(COLOR_PAIR(Paint::white));
   refresh();
 }
@@ -205,16 +199,16 @@ void Screen::reset(const uint16_t high) {
 }
 
 void Screen::print_length(const uint16_t length) const {
-  const int row = this->m_game_rows + this->m_game_start.second + 1;
-  const int col = this->m_game_start.first + 8;
+  const int row = this->m_game_rows + this->m_game_start.y + 1;
+  const int col = this->m_game_start.x + 8;
 
   mvprintw(row, col, "%d", length);
   refresh();
 }
 
 void Screen::print_best(const uint16_t best) const {
-  const int row = this->m_game_rows + this->m_game_start.second + 1;
-  const int col = this->m_game_cols + this->m_game_start.first - 3;
+  const int row = this->m_game_rows + this->m_game_start.y + 1;
+  const int col = this->m_game_cols + this->m_game_start.x - 3;
 
   mvprintw(row, col, "%d", best);
   refresh();
