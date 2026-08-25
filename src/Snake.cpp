@@ -18,8 +18,8 @@ void Snake::spawn_apple() {
     return;
   }
 
-  std::uniform_int_distribution<uint16_t> dist(0, this->m_open.size() - 1);
-  std::set<Point>::const_iterator it(this->m_open.begin());
+  std::uniform_int_distribution<uint16_t> dist(0, this->m_open.size());
+  std::unordered_set<Point>::const_iterator it(this->m_open.begin());
   uint16_t idx = dist(this->m_rng);
 
   for (uint16_t i = 0; i < idx; i++, it++)

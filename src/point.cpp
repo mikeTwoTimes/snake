@@ -8,6 +8,8 @@ bool Point::operator==(const Point &other) const {
 
 bool Point::operator!=(const Point &other) const { return !(*this == other); }
 
-bool Point::operator<(const Point &other) const {
-  return std::tie(x, y) < std::tie(other.x, other.y);
+std::size_t PointHash::operator()(const Point p) const {
+  std::size_t seed = std::hash<int8_t>{}(p.x);
+  seed ^= std::hash<int8_t>{}(p.y) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+  return seed;
 }
