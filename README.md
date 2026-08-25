@@ -8,6 +8,7 @@ A Snake clone built in C++ using the ncurses library!
 - C++ 17 or higher
 - Ncurses library
 - Terminal color
+- Keyboard with arrow keys
 - Minimum terminal dimensions of 68x35
 
 ## Building & Playing

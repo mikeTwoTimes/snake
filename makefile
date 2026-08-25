@@ -1,4 +1,4 @@
-CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -O3 -march=native
+CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -O3
 INCLUDE = include/snake
 TARGET = build/main
 
